@@ -30,17 +30,43 @@ export default function PhotoPage() {
     };
   }, []);
 
-  const capturePhoto = () => {
+  const capturePhoto = async () => {
     if (videoRef.current) {
+      const video = videoRef.current;
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
-      // Set canvas size to the video size
-      canvas.width = videoRef.current.videoWidth;
-      canvas.height = videoRef.current.videoHeight;
-      context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-      // Convert the canvas to a data URL
+
+      const size = Math.min(video.videoWidth, video.videoHeight); // bikin kotak dari tengah
+      canvas.width = size;
+      canvas.height = size;
+
+      // Buat lingkaran clipping path
+      context.beginPath();
+      context.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2, true);
+      context.closePath();
+      context.clip();
+
+      // Gambar dari tengah (biar bulatnya pas)
+      const offsetX = (video.videoWidth - size) / 2;
+      const offsetY = (video.videoHeight - size) / 2;
+      context.drawImage(video, offsetX, offsetY, size, size, 0, 0, size, size);
+
       const dataUrl = canvas.toDataURL('image/png');
-      setImageUrl(dataUrl);
+      if (!dataUrl) return;
+
+      const response = await fetch('/api/saveimage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ base64: dataUrl }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        console.log('Image saved at:', result.url);
+        alert('Image saved to server!');
+      } else {
+        alert('Failed to save image');
+      }
     }
   };
 
@@ -67,7 +93,6 @@ export default function PhotoPage() {
         <button onClick={capturePhoto} style={{ margin: '10px' }}>Capture Photo</button>
         {imageUrl && (
           <div>
-            <button onClick={downloadImage} style={{ margin: '10px' }}>Download Photo</button>
             <img
               src={imageUrl}
               alt="Captured"
