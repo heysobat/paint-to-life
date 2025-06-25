@@ -13,7 +13,7 @@ export async function POST(req) {
     const metadata = {
       name: name || 'Unnamed Image',
       frame: frame || 'No Frame',
-      url: `/${filename}`,
+      url: `histories/${filename}`,
       timestamp: Date.now()
     };
 
