@@ -1,0 +1,21 @@
+{
+    "data" : [
+        {
+            "theme"     : "space",
+            "frames"    : [
+                {
+                    "id"        : "space-01",
+                    "asset"     : "AS1_Rendered.png"
+                },
+                {
+                    "id"        : "space-02",
+                    "asset"     : "AS2_Rendered.png"
+                },
+                {
+                    "id"        : "space-03",
+                    "asset"     : "UFO_Rendered.png"
+                }
+            ]
+        }
+    ]
+}
