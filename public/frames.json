@@ -5,15 +5,50 @@
             "frames"    : [
                 {
                     "id"        : "space-01",
-                    "asset"     : "AS1_Rendered.png"
+                    "asset"     : "Space_Female.png"
                 },
                 {
                     "id"        : "space-02",
-                    "asset"     : "AS2_Rendered.png"
+                    "asset"     : "Space_Male.png"
+                }
+            ]
+        },
+        {
+            "theme"     : "sea",
+            "frames"    : [
+                {
+                    "id"        : "sea-01",
+                    "asset"     : "Sea_Female.png"
                 },
                 {
-                    "id"        : "space-03",
-                    "asset"     : "UFO_Rendered.png"
+                    "id"        : "sea-02",
+                    "asset"     : "Sea_Male.png"
+                }
+            ]
+        },
+        {
+            "theme"     : "minecraft",
+            "frames"    : [
+                {
+                    "id"        : "minecraft-01",
+                    "asset"     : "Minecraft_Female.png"
+                },
+                {
+                    "id"        : "minecraft-02",
+                    "asset"     : "Minecraft_Male.png"
+                }
+            ]
+        },
+        {
+            "theme"     : "jungle",
+            "frames"    : [
+                {
+                    "id"        : "jungle-01",
+                    "asset"     : "Jungle_Female.png"
+                },
+                {
+                    "id"        : "jungle-02",
+                    "asset"     : "Jungle_Male.png"
                 }
             ]
         }

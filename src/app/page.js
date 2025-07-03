@@ -5,8 +5,10 @@ import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [frames , setFrames]  = useState([]);
-  const [frame , setFrame]    = useState(null);
+  const [frames , setFrames]      = useState([]);
+  const [frame , setFrame]        = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [theme, setTheme]         = useState(0);
 
   const handleGetFrames = async () => {
       const response = await fetch('/api/getimage', {
@@ -33,15 +35,27 @@ export default function Home() {
   useEffect(() => {
     handleGetFrames()
   }, [])
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        setShowModal(true);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
   
   return (
     <div className="container">
       <div className="row h-frame">
         {
-          frames[0] && frames[0].frames.map((item , index) => (
-            <div key={index} className="col-md-4" onClick={() => handleSetFrame(item.id)}>
+          frames[theme] && frames[theme].frames.map((item , index) => (
+            <div key={index} className="col-md-6" onClick={() => handleSetFrame(item.id)}>
               <div className={`item-frame ${item.id == frame ? 'active' : ''}`}>
-                <img src={`/frames/${frames[0].theme}/${item.asset}`} className="w-100"/>
+                <img src={`/frames/${item.asset}`} className="w-100"/>
               </div>
             </div>
           ))
@@ -50,6 +64,25 @@ export default function Home() {
       <div class="button-rainbow">
         <button onClick={handleGoTakePicture}><span>AYO MULAI</span></button>
       </div>
+
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <select
+              className="form-control mb-3"
+              value={theme}
+              onChange={(e) => setTheme(parseInt(e.target.value))}
+            >
+              {
+                frames.map((item, index) => (
+                  <option value={index} key={index}>{item.theme}</option>
+                ))
+              }
+            </select>
+            <button onClick={() => setShowModal(false)}>Tutup</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
