@@ -47,6 +47,17 @@ export default function Home() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  useEffect(() => {
+    const handleThreeFingerTouch = (e) => {
+      if (e.touches && e.touches.length === 3) {
+        setShowModal(true);
+      }
+    };
+
+    window.addEventListener('touchstart', handleThreeFingerTouch);
+    return () => window.removeEventListener('touchstart', handleThreeFingerTouch);
+  }, []);
   
   return (
     <div className="container">
