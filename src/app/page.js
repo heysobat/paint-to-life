@@ -34,6 +34,8 @@ export default function Home() {
 
   useEffect(() => {
     handleGetFrames()
+
+    setTheme(localStorage.getItem('theme') ?? 0)
   }, [])
 
   useEffect(() => {
@@ -82,7 +84,10 @@ export default function Home() {
             <select
               className="form-control mb-3"
               value={theme}
-              onChange={(e) => setTheme(parseInt(e.target.value))}
+              onChange={(e) => {
+                setTheme(parseInt(e.target.value))
+                localStorage.setItem('theme' , e.target.value)
+              }}
             >
               {
                 frames.map((item, index) => (
@@ -90,7 +95,9 @@ export default function Home() {
                 ))
               }
             </select>
-            <button onClick={() => setShowModal(false)}>Tutup</button>
+            <button onClick={() => {
+              setShowModal(false)
+            }}>Tutup</button>
           </div>
         </div>
       )}

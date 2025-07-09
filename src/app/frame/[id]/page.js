@@ -13,7 +13,11 @@ export default function PhotoPage() {
   useEffect(() => {
     // Get the user's webcam
     navigator.mediaDevices
-      .getUserMedia({ video: true })
+      .getUserMedia({
+        video: {
+          facingMode: { exact: 'environment' } // Prioritaskan kamera belakang
+        }
+      })
       .then((stream) => {
         if (videoRef.current) {
           videoRef.current.srcObject = stream; // Set the stream to the video element
@@ -88,7 +92,7 @@ export default function PhotoPage() {
       {
         !imageUrl ? (
           <>
-            <div style={{ width: '550px', height: '70vh', overflow: 'hidden', borderRadius: '50%' }}>
+            <div style={{ width: '550px', height: '45vh', overflow: 'hidden', borderRadius: '50%' , marginBottom: 100 }}>
               <video
                 ref={videoRef}
                 autoPlay
@@ -119,7 +123,6 @@ export default function PhotoPage() {
         </div>
         )
       }
-      
     </div>
   );
 }
