@@ -68,18 +68,22 @@ export default function PhotoPage() {
   };
 
   const handleSubmitForm = async () => {
-    const response = await fetch('/api/saveimage', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ base64: imageUrl , name : name , frame : params.id }),
-    });
+    if(name != '') {
+      const response = await fetch('/api/saveimage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ base64: imageUrl , name : name , frame : params.id }),
+      });
 
-    const result = await response.json();
-    if (response.ok) {
-      alert('Image saved');
-      window.location = '/'
-    } else {
-      alert('Failed to save image');
+      const result = await response.json();
+      if (response.ok) {
+        alert('Image saved');
+        window.location = '/'
+      } else {
+        alert('Failed to save image');
+      }
+    }else{
+      alert('Nama harus di isi')
     }
   }
 
